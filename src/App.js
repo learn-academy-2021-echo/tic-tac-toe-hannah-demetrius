@@ -4,13 +4,6 @@ import "./App.css";
 import "./components/Gameboard.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    };
-  }
-
   render() {
     return (
       <>
