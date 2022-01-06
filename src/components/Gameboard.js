@@ -1,39 +1,36 @@
 import React, { Component } from "react";
 
-class Gameboard extends Component {
+const WINNING_CONDITIONS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+];
 
-  static WINNING_CONDITIONS = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
+class Gameboard extends Component {
 
   constructor(props) {
     super(props);
       this.state = {
         turn: 1,
         board: Array(9).fill(null),
-        won: false
       };
 
       this.handleMark = this.handleMark.bind(this);
   }
 
   getWinner() {
-    for (let i = 0; i < Gameboard.WINNING_CONDITIONS; i++) {
-      const [positionA, positionB, positionC] = Gameboard.WINNING_CONDITIONS[i];
-
+    for (let i = 0; i < WINNING_CONDITIONS.length; i++) {
+      const [positionA, positionB, positionC] = WINNING_CONDITIONS[i];
       if (this.state.board[positionA] && this.state.board[positionA] === this.state.board[positionB] && this.state.board[positionA] === this.state.board[positionC]) {
-        this.setState({ won: true });
         return this.state.board[positionA];
       }
     }
-    return 'No winner!';
+    return false;
   }
 
   handleMark(i) {
@@ -45,7 +42,10 @@ class Gameboard extends Component {
     // Give the boxes state the new array with the player's turn
     // Increment the turn state by one
 
-    const mark = (this.state.turn % 2 !== 0) ? 'O' : 'X';
+    const mark = (this.state.turn % 2 !== 0)
+      ? 'O'
+      : 'X';
+
     const newBoard = this.state.board.slice();
 
     newBoard[i] = mark;
@@ -55,11 +55,10 @@ class Gameboard extends Component {
   }
 
   render() {
-    const hasWon = this.state.won;
-    const whoWon = this.getWinner();
+    const winner = this.getWinner();
 
-    if (hasWon) {
-      alert(whoWon);
+    if (winner) {
+      alert('The winner is: ' + winner);
     }
 
     return (
